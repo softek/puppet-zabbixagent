@@ -1,3 +1,15 @@
+# Class: zabbixagent
+#
+# This module manages the zabbix agent on a monitored machine.
+#
+# Parameters: none
+#
+# Actions:
+#
+# Requires: see Modulefile
+#
+# Sample Usage:
+#
 class zabbixagent() {
 
   package {'zabbix-agent' :
