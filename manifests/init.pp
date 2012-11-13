@@ -10,7 +10,23 @@
 #
 # Sample Usage:
 #
-class zabbixagent() {
+class zabbixagent(
+  $servers = '',
+  $hostname = '',
+) {
+  if ($servers = '') {
+    $servers_real = 'localhost'
+  }
+  else {
+    $servers_real = $servers
+  }
+
+  if ($hostname = '') {
+    $hostname_real = $::hostname
+  }
+  else {
+    $hostname_real = $hostname
+  }
 
   package {'zabbix-agent' :
     ensure  => installed,

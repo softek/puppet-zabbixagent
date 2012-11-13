@@ -78,7 +78,7 @@ LogFileSize=0
 # Mandatory: yes
 # Default:
 # Server=
-Server=localhost
+Server=<%= [@servers_real].flatten.join(",") %>
 
 ### Option: Hostname
 #	Unique, case sensitive hostname.
@@ -87,7 +87,7 @@ Server=localhost
 #
 # Mandatory: no
 # Default:
-# Hostname=
+Hostname=<%= @hostname_real %>
 
 ### Option: HostnameItem
 #	Item used for generating Hostname if it is undefined.
