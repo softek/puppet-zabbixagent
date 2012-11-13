@@ -10,7 +10,7 @@ class zabbixagent() {
     require => Package['zabbix-agent'],
   }
 
-  class {'zabbixagent::config' :
+  file {'/etc/zabbix/zabbix_agentd.conf' :
     content => template('zabbixagent/zabbix_agentd.conf.unix.erb'),
     require => Package['zabbix-agent'],
     notify  => Service['zabbix-agent'],
