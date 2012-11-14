@@ -29,7 +29,7 @@ class zabbixagent(
   }
 
   case $::operatingsystem {
-    debian, ubuntu, centos: {
+    debian, ubuntu: {
       package {'zabbix-agent' :
         ensure  => installed,
       }
@@ -53,15 +53,19 @@ class zabbixagent(
       file { $confdir: ensure => directory }
       file { "${confdir}/zabbix_agentd.conf":
         content => template('zabbixagent/zabbix_agentd.conf.windows.erb'),
+        mode    => '0770',
       }
       file { $homedir: 
         ensure  => directory,
-        source  => "puppet:///modules/zabbixagent/win64/",
+        source  => "puppet:///modules/zabbixagent/win64",
+        recurse => true,
+        mode    => '0770',
       }
 
       exec { 'install Zabbix Agent': 
-        path => $homedir,
+        path    => $homedir,
         command => "zabbix_agentd.exe --config ${confdir}/zabbix_agentd.conf --install",
+        require => [File[$homedir], File["${confdir}/zabbix_agentd.conf"]],
       }
     }
     default: { notice "Unsupported operatingsystem  ${::operatingsystem}" }
