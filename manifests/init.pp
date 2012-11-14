@@ -14,14 +14,14 @@ class zabbixagent(
   $servers = '',
   $hostname = '',
 ) {
-  if ($servers = '') {
+  if ($servers == '') {
     $servers_real = 'localhost'
   }
   else {
     $servers_real = $servers
   }
 
-  if ($hostname = '') {
+  if ($hostname == '') {
     $hostname_real = $::hostname
   }
   else {
