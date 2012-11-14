@@ -14,18 +14,13 @@ class zabbixagent(
   $servers = '',
   $hostname = '',
 ) {
-  if ($servers == '') {
-    $servers_real = 'localhost'
+  $servers_real = $servers ? {
+    ''      => 'localhost',
+    default => $servers,
   }
-  else {
-    $servers_real = $servers
-  }
-
-  if ($hostname == '') {
-    $hostname_real = $::hostname
-  }
-  else {
-    $hostname_real = $hostname
+  $hostname_real = $hostname ? {
+    ''      => $::hostname,
+    default => $hostname,
   }
 
   case $::operatingsystem {
@@ -44,27 +39,27 @@ class zabbixagent(
         content => template('zabbixagent/zabbix_agentd.conf.unix.erb'),
         require => Package['zabbix-agent'],
         notify  => Service['zabbix-agent'],
-      }   
+      }
     }
     windows: {
-      $confdir = "C:/ProgramData/Zabbix"
-      $homedir = "C:/Program Files/Zabbix/"
+      $confdir = 'C:/ProgramData/Zabbix'
+      $homedir = 'C:/Program Files/Zabbix/'
 
       file { $confdir: ensure => directory }
       file { "${confdir}/zabbix_agentd.conf":
         content => template('zabbixagent/zabbix_agentd.conf.windows.erb'),
         mode    => '0770',
       }
-      file { $homedir: 
+      file { $homedir:
         ensure  => directory,
-        source  => "puppet:///modules/zabbixagent/win64",
+        source  => 'puppet:///modules/zabbixagent/win64',
         recurse => true,
         mode    => '0770',
       }
 
-      exec { 'install Zabbix Agent': 
+      exec { 'install Zabbix Agent':
         path    => $::path,
-        cwd     => "${homedir}",
+        cwd     => $homedir,
         command => "\"${homedir}/zabbix_agentd.exe\" --config ${confdir}/zabbix_agentd.conf --install",
         require => [File[$homedir], File["${confdir}/zabbix_agentd.conf"]],
         unless  => 'sc query "Zabbix Agent"'
