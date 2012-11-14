@@ -63,9 +63,16 @@ class zabbixagent(
       }
 
       exec { 'install Zabbix Agent': 
-        path    => $homedir,
-        command => "zabbix_agentd.exe --config ${confdir}/zabbix_agentd.conf --install",
+        path    => $::path,
+        cwd     => "${homedir}",
+        command => "\"${homedir}/zabbix_agentd.exe\" --config ${confdir}/zabbix_agentd.conf --install",
         require => [File[$homedir], File["${confdir}/zabbix_agentd.conf"]],
+        unless  => 'sc query "Zabbix Agent"'
+      }
+
+      service { 'Zabbix Agent':
+        ensure  => running,
+        require => Exec['install Zabbix Agent'],
       }
     }
     default: { notice "Unsupported operatingsystem  ${::operatingsystem}" }
