@@ -35,10 +35,20 @@ class zabbixagent(
         require => Package['zabbix-agent'],
       }
 
-      file {'/etc/zabbix/zabbix_agentd.conf' :
-        content => template('zabbixagent/zabbix_agentd.conf.unix.erb'),
-        require => Package['zabbix-agent'],
-        notify  => Service['zabbix-agent'],
+      ini_setting { 'servers setting':
+        ensure  => present,
+        path    => '/etc/zabbix/zabbix_agentd.conf',
+        section => '',
+        setting => 'Server',
+        value   => join(flatten([$servers_real]), ','),
+      }
+
+      ini_setting { 'hostname setting':
+        ensure  => present,
+        path    => '/etc/zabbix/zabbix_agentd.conf',
+        section => '',
+        setting => 'Hostname',
+        value   => $hostname_real,
       }
     }
     windows: {
