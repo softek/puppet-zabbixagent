@@ -67,6 +67,7 @@ class zabbixagent(
         section => '',
         setting => 'Server',
         value   => join(flatten([$servers_real]), ','),
+        require => File["${confdir}/zabbix_agentd.conf"],
       }
 
       ini_setting { 'hostname setting':
@@ -75,6 +76,7 @@ class zabbixagent(
         section => '',
         setting => 'Hostname',
         value   => $hostname_real,
+        require => File["${confdir}/zabbix_agentd.conf"],
       }
       
       file { $homedir:
