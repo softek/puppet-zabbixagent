@@ -57,9 +57,26 @@ class zabbixagent(
 
       file { $confdir: ensure => directory }
       file { "${confdir}/zabbix_agentd.conf":
-        content => template('zabbixagent/zabbix_agentd.conf.windows.erb'),
+        ensure  => present,
         mode    => '0770',
       }
+
+      ini_setting { 'servers setting':
+        ensure  => present,
+        path    => "${confdir}/zabbix_agentd.conf",
+        section => '',
+        setting => 'Server',
+        value   => join(flatten([$servers_real]), ','),
+      }
+
+      ini_setting { 'hostname setting':
+        ensure  => present,
+        path    => "${confdir}/zabbix_agentd.conf",
+        section => '',
+        setting => 'Hostname',
+        value   => $hostname_real,
+      }
+      
       file { $homedir:
         ensure  => directory,
         source  => 'puppet:///modules/zabbixagent/win64',
