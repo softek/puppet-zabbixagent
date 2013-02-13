@@ -19,7 +19,7 @@ class zabbixagent(
     default => $servers,
   }
   $hostname_real = $hostname ? {
-    ''      => $::hostname,
+    ''      => $::fqdn,
     default => $hostname,
   }
 
