@@ -24,11 +24,24 @@ class zabbixagent(
   }
 
   case $::operatingsystem {
-    debian, ubuntu: {
+    centos: {
+      include epel
+
       package {'zabbix-agent' :
         ensure  => installed,
+        require => Yumrepo["epel"]
       }
+    }
 
+    debian, ubuntu: {
+      package {'zabbix-agent' :
+        ensure  => installed
+      }
+    }
+  }
+
+  case $::operatingsystem {
+    debian, ubuntu, centos: {
       service {'zabbix-agent' :
         ensure  => running,
         enable  => true,
