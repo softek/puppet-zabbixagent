@@ -19,16 +19,29 @@ class zabbixagent(
     default => $servers,
   }
   $hostname_real = $hostname ? {
-    ''      => $::hostname,
+    ''      => $::fqdn,
     default => $hostname,
   }
 
   case $::operatingsystem {
-    debian, ubuntu: {
+    centos: {
+      include epel
+
       package {'zabbix-agent' :
         ensure  => installed,
+        require => Yumrepo["epel"]
       }
+    }
 
+    debian, ubuntu: {
+      package {'zabbix-agent' :
+        ensure  => installed
+      }
+    }
+  }
+
+  case $::operatingsystem {
+    debian, ubuntu, centos: {
       service {'zabbix-agent' :
         ensure  => running,
         enable  => true,
@@ -49,6 +62,18 @@ class zabbixagent(
         section => '',
         setting => 'Hostname',
         value   => $hostname_real,
+      }
+
+      ini_setting { 'Include setting':
+        ensure  => present,
+        path    => '/etc/zabbix/zabbix_agentd.conf',
+        section => '',
+        setting => 'Include',
+        value   => '/etc/zabbix/zabbix_agentd/'
+      }
+
+      file { '/etc/zabbix/zabbix_agentd':
+        ensure  => directory
       }
     }
     windows: {
