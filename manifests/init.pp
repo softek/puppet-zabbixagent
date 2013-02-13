@@ -63,6 +63,18 @@ class zabbixagent(
         setting => 'Hostname',
         value   => $hostname_real,
       }
+
+      ini_setting { 'Include setting':
+        ensure  => present,
+        path    => '/etc/zabbix/zabbix_agentd.conf',
+        section => '',
+        setting => 'Include',
+        value   => '/etc/zabbix/zabbix_agentd/'
+      }
+
+      file { '/etc/zabbix/zabbix_agentd':
+        ensure  => directory
+      }
     }
     windows: {
       $confdir = 'C:/ProgramData/Zabbix'
