@@ -23,6 +23,8 @@ class zabbixagent(
     default => $hostname,
   }
 
+  Package <| |> -> Ini_setting <| |>
+
   case $::operatingsystem {
     centos: {
       include epel
@@ -54,6 +56,7 @@ class zabbixagent(
         section => '',
         setting => 'Server',
         value   => join(flatten([$servers_real]), ','),
+        notify  => Service['zabbix-agent'],
       }
 
       ini_setting { 'hostname setting':
@@ -62,6 +65,7 @@ class zabbixagent(
         section => '',
         setting => 'Hostname',
         value   => $hostname_real,
+        notify  => Service['zabbix-agent'],
       }
 
       ini_setting { 'Include setting':
@@ -69,11 +73,13 @@ class zabbixagent(
         path    => '/etc/zabbix/zabbix_agentd.conf',
         section => '',
         setting => 'Include',
-        value   => '/etc/zabbix/zabbix_agentd/'
+        value   => '/etc/zabbix/zabbix_agentd/',
+        notify  => Service['zabbix-agent'],
       }
 
       file { '/etc/zabbix/zabbix_agentd':
-        ensure  => directory
+        ensure  => directory,
+        require => Package['zabbix-agent'],
       }
     }
     windows: {
@@ -93,6 +99,7 @@ class zabbixagent(
         setting => 'Server',
         value   => join(flatten([$servers_real]), ','),
         require => File["${confdir}/zabbix_agentd.conf"],
+        notify  => Service['Zabbix Agent'],
       }
 
       ini_setting { 'hostname setting':
@@ -102,6 +109,7 @@ class zabbixagent(
         setting => 'Hostname',
         value   => $hostname_real,
         require => File["${confdir}/zabbix_agentd.conf"],
+        notify  => Service['Zabbix Agent'],
       }
       
       file { $homedir:
