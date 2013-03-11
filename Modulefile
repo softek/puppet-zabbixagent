@@ -1,5 +1,5 @@
 name 'softek-zabbixagent'
-version '0.1.0'
+version '1.0.0'
 source 'git://github.com/softek/puppet-zabbixagent.git'
 author 'Scott Smerchek'
 license ''
