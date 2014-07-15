@@ -1,3 +1,7 @@
+2014-07-15 Release 1.0.1
+Changes:
+- Upgrade package format and fix deprecation warnings.
+
 2013-02-18 Release 1.0.0
 Breaking Changes:
 - Default hostname is now `$::fqdn` instead of `$::hostname`
