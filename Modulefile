@@ -9,5 +9,5 @@ project_page 'http://github.com/softek/puppet-zabbixagent'
 
 ## Add dependencies, if any:
 dependency 'puppetlabs/stdlib', '>= 3.0.0'
-dependency 'cprice404/inifile', '>= 0.9.0'
+dependency 'puppetlabs/inifile', '>= 0.9.0'
 dependency 'stahnma/epel', '>= 0.0.3'
