@@ -29,7 +29,7 @@ class zabbixagent(
     centos: {
       include epel
 
-      package {'zabbix-agent' :
+      package {'zabbix20-agent' :
         ensure  => installed,
         require => Yumrepo["epel"]
       }
