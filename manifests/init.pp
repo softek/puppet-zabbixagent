@@ -47,7 +47,7 @@ class zabbixagent(
       service {'zabbix-agent' :
         ensure  => running,
         enable  => true,
-        require => Package['zabbix-agent'],
+        require => Package['zabbix20-agent'],
       }
 
       ini_setting { 'servers setting':
