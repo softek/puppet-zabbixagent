@@ -79,7 +79,7 @@ class zabbixagent(
 
       file { '/etc/zabbix/zabbix_agentd':
         ensure  => directory,
-        require => Package['zabbix-agent'],
+        require => Package['zabbix20-agent'],
       }
     }
     windows: {
