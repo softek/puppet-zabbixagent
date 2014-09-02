@@ -29,7 +29,7 @@ class zabbixagent(
     centos: {
       include epel
 
-      package {'zabbix-agent' :
+      package {'zabbix20-agent' :
         ensure  => installed,
         require => Yumrepo["epel"]
       }
@@ -47,7 +47,7 @@ class zabbixagent(
       service {'zabbix-agent' :
         ensure  => running,
         enable  => true,
-        require => Package['zabbix-agent'],
+        require => Package['zabbix20-agent'],
       }
 
       ini_setting { 'servers setting':
@@ -79,7 +79,7 @@ class zabbixagent(
 
       file { '/etc/zabbix/zabbix_agentd':
         ensure  => directory,
-        require => Package['zabbix-agent'],
+        require => Package['zabbix20-agent'],
       }
     }
     windows: {
