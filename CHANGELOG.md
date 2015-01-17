@@ -1,3 +1,15 @@
+2015-01-17
+Total Rework:
+- Converted to use the install -> config -> service pattern
+- Moved all paramters to `params.pp`
+- Removed dependancy on epel module
+- Added Zabbix repo
+- Added option to disable repo management per repo
+- Changed Windows setup to utilize the official Zabbix package via Chocolatey
+- Added .project file for Geppetto
+- Added Vagrant config to facilitate testing and development
+- Added ability to configure `ServerActive` setting
+
 2014-07-15 Release 1.0.1
 Changes:
 - Upgrade package format and fix deprecation warnings.

@@ -1,0 +1,40 @@
+################################################################
+################################################################
+#
+#        This file is managed by Puppet
+#
+################################################################
+################################################################
+
+################################################################
+#
+#   This section replaces /etc/yum.repos.d/epel-testing.repo
+#
+################################################################
+
+[epel-testing]
+name=Extra Packages for Enterprise Linux <%= @operatingsystemmajrelease %> - Testing - $basearch
+#baseurl=http://download.fedoraproject.org/pub/epel/testing/<%= @operatingsystemmajrelease %>/$basearch
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=testing-epel<%= @operatingsystemmajrelease %>&arch=$basearch
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=http://download.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-<%= @operatingsystemmajrelease %>
+
+[epel-testing-debuginfo]
+name=Extra Packages for Enterprise Linux <%= @operatingsystemmajrelease %> - Testing - $basearch - Debug
+#baseurl=http://download.fedoraproject.org/pub/epel/testing/<%= @operatingsystemmajrelease %>/$basearch/debug
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=testing-debug-epel<%= @operatingsystemmajrelease %>&arch=$basearch
+failovermethod=priority
+enabled=0
+gpgkey=http://download.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-<%= @operatingsystemmajrelease %>
+gpgcheck=1
+
+[epel-testing-source]
+name=Extra Packages for Enterprise Linux <%= @operatingsystemmajrelease %> - Testing - $basearch - Source
+#baseurl=http://download.fedoraproject.org/pub/epel/testing/<%= @operatingsystemmajrelease %>/SRPMS
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=testing-source-epel<%= @operatingsystemmajrelease %>&arch=$basearch
+failovermethod=priority
+enabled=0
+gpgkey=http://download.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-<%= @operatingsystemmajrelease %>
+gpgcheck=1

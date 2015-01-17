@@ -2,136 +2,61 @@
 #
 # This module manages the zabbix agent on a monitored machine.
 #
-# Parameters: none
+# Parameters: 
+#   $ensure_setting     Passed directly to ensure of package resource
+#                       Default: 'present'
+#
+#   $hostname           The hostname used in the config file.
+#                       Default: $::fqdn
+#
+#   $manage_repo_epel   Determines if the EPEL repo is managed on the RedHat
+#                       family of OS's.
+#                       Default: false
+#                       Type: boolean
+#
+#   $manage_repo_zabbix Determines if the Zabbix repo is managed on the RedHat
+#                       family of OS's.
+#                       Default: false
+#                       Type: boolean
+#
+#   $servers            The server or servers used in the Servers setting.
+#                       Default: '127.0.0.1'
+#                       Type: String separated by commas OR Array
+#
+#   $servers_active     The server or servers used in the Servers setting.
+#                       Default: '127.0.0.1'
+#                       Type: String separated by commas OR Array
 #
 # Actions:
 #
-# Requires: see Modulefile
+# Requires: see metadata.json
 #
 # Sample Usage:
 #
-class zabbixagent(
-  $servers = '',
-  $hostname = '',
-) {
-  $servers_real = $servers ? {
-    ''      => 'localhost',
-    default => $servers,
-  }
-  $hostname_real = $hostname ? {
-    ''      => $::fqdn,
-    default => $hostname,
-  }
-
-  Package <| |> -> Ini_setting <| |>
-
-  case $::operatingsystem {
-    centos: {
-      include epel
-
-      package {'zabbix-agent' :
-        ensure  => installed,
-        require => Yumrepo["epel"]
-      }
-    }
-
-    debian, ubuntu: {
-      package {'zabbix-agent' :
-        ensure  => installed
-      }
-    }
-  }
-
-  case $::operatingsystem {
-    debian, ubuntu, centos: {
-      service {'zabbix-agent' :
-        ensure  => running,
-        enable  => true,
-        require => Package['zabbix-agent'],
-      }
-
-      ini_setting { 'servers setting':
-        ensure  => present,
-        path    => '/etc/zabbix/zabbix_agentd.conf',
-        section => '',
-        setting => 'Server',
-        value   => join(flatten([$servers_real]), ','),
-        notify  => Service['zabbix-agent'],
-      }
-
-      ini_setting { 'hostname setting':
-        ensure  => present,
-        path    => '/etc/zabbix/zabbix_agentd.conf',
-        section => '',
-        setting => 'Hostname',
-        value   => $hostname_real,
-        notify  => Service['zabbix-agent'],
-      }
-
-      ini_setting { 'Include setting':
-        ensure  => present,
-        path    => '/etc/zabbix/zabbix_agentd.conf',
-        section => '',
-        setting => 'Include',
-        value   => '/etc/zabbix/zabbix_agentd/',
-        notify  => Service['zabbix-agent'],
-      }
-
-      file { '/etc/zabbix/zabbix_agentd':
-        ensure  => directory,
-        require => Package['zabbix-agent'],
-      }
-    }
-    windows: {
-      $confdir = 'C:/ProgramData/Zabbix'
-      $homedir = 'C:/Program Files/Zabbix/'
-
-      file { $confdir: ensure => directory }
-      file { "${confdir}/zabbix_agentd.conf":
-        ensure  => present,
-        mode    => '0770',
-      }
-
-      ini_setting { 'servers setting':
-        ensure  => present,
-        path    => "${confdir}/zabbix_agentd.conf",
-        section => '',
-        setting => 'Server',
-        value   => join(flatten([$servers_real]), ','),
-        require => File["${confdir}/zabbix_agentd.conf"],
-        notify  => Service['Zabbix Agent'],
-      }
-
-      ini_setting { 'hostname setting':
-        ensure  => present,
-        path    => "${confdir}/zabbix_agentd.conf",
-        section => '',
-        setting => 'Hostname',
-        value   => $hostname_real,
-        require => File["${confdir}/zabbix_agentd.conf"],
-        notify  => Service['Zabbix Agent'],
-      }
-      
-      file { $homedir:
-        ensure  => directory,
-        source  => 'puppet:///modules/zabbixagent/win64',
-        recurse => true,
-        mode    => '0770',
-      }
-
-      exec { 'install Zabbix Agent':
-        path    => $::path,
-        cwd     => $homedir,
-        command => "\"${homedir}/zabbix_agentd.exe\" --config ${confdir}/zabbix_agentd.conf --install",
-        require => [File[$homedir], File["${confdir}/zabbix_agentd.conf"]],
-        unless  => 'sc query "Zabbix Agent"'
-      }
-
-      service { 'Zabbix Agent':
-        ensure  => running,
-        require => Exec['install Zabbix Agent'],
-      }
-    }
-    default: { notice "Unsupported operatingsystem  ${::operatingsystem}" }
-  }
+class zabbixagent (
+  $ensure_setting     = $::zabbixagent::params::ensure,
+  $hostname           = $::zabbixagent::params::hostname,
+  $manage_repo_epel   = $::zabbixagent::params::manage_repo_epel,
+  $manage_repo_zabbix = $::zabbixagent::params::manage_repo_zabbix,
+  $servers            = $::zabbixagent::params::servers,
+  $servers_active     = $::zabbixagent::params::servers,
+) inherits ::zabbixagent::params {
+  class { '::zabbixagent::preinstall':
+    manage_repo_epel   => $manage_repo_epel,
+    manage_repo_zabbix => $manage_repo_zabbix,
+    
+  } ->
+  
+  class { '::zabbixagent::install':
+    ensure_setting => $ensure_setting,
+  } ->
+  
+  class { '::zabbixagent::config':
+    hostname       => $hostname,
+    servers        => $servers,
+    servers_active => $servers_active,
+  } ->
+  
+  class { '::zabbixagent::service': }
+  
 }
