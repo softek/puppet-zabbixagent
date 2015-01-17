@@ -34,12 +34,12 @@
 # Sample Usage:
 #
 class zabbixagent (
-  $ensure_setting     = $::zabbixagent::params::ensure,
+  $ensure_setting     = $::zabbixagent::params::ensure_setting,
   $hostname           = $::zabbixagent::params::hostname,
   $manage_repo_epel   = $::zabbixagent::params::manage_repo_epel,
   $manage_repo_zabbix = $::zabbixagent::params::manage_repo_zabbix,
   $servers            = $::zabbixagent::params::servers,
-  $servers_active     = $::zabbixagent::params::servers,
+  $servers_active     = $::zabbixagent::params::servers_active,
 ) inherits ::zabbixagent::params {
   class { '::zabbixagent::preinstall':
     manage_repo_epel   => $manage_repo_epel,
