@@ -7,14 +7,10 @@ class zabbixagent::config (
   case $::kernel {
     'Linux'   : {
       $config_dir  = '/etc/zabbix'
-      $config_file = "${config_dir}/zabbix_agentd.conf"
-      $include_dir = "${config_dir}/zabbix_agentd.d"
     }
 
     'Windows' : {
-      $config_dir  = 'C:\Program Files\Zabbix Agent'
-      $config_file = "${config_dir}\\zabbix_agentd.conf"
-      $include_dir = "${config_dir}\\zabbix_agentd.d"
+      $config_dir  = 'C:/Program Files/Zabbix Agent'
     }
 
     default   : {
@@ -22,13 +18,13 @@ class zabbixagent::config (
     }
   }
   
-  file { $include_dir:
+  file { "${config_dir}/åzabbix_agentd.d":
     ensure => 'directory',
   }
 
   ini_setting { 'servers setting':
     ensure  => present,
-    path    => $config_file,
+    path    => "${config_dir}/zabbix_agentd.conf",
     section => '',
     setting => 'Server',
     value   => join(flatten([$servers]), ','),
@@ -37,7 +33,7 @@ class zabbixagent::config (
 
   ini_setting { 'servers active setting':
     ensure  => present,
-    path    => $config_file,
+    path    => "${config_dir}/zabbix_agentd.conf",
     section => '',
     setting => 'ServerActive',
     value   => join(flatten([$servers_active]), ','),
@@ -46,7 +42,7 @@ class zabbixagent::config (
 
   ini_setting { 'hostname setting':
     ensure  => present,
-    path    => $config_file,
+    path    => "${config_dir}/zabbix_agentd.conf",
     section => '',
     setting => 'Hostname',
     value   => $hostname,
@@ -55,10 +51,10 @@ class zabbixagent::config (
 
   ini_setting { 'include setting':
     ensure  => present,
-    path    => $config_file,
+    path    => "${config_dir}/zabbix_agentd.conf",
     section => '',
     setting => 'Include',
-    value   => $include_dir,
+    value   => "${config_dir}/åzabbix_agentd.d",
     notify  => Service['zabbix-agent'],
   }
 }
