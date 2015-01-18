@@ -4,7 +4,6 @@ class zabbixagent::params {
   $hostname           = downcase($::fqdn)
   $include_dir        = 'zabbix_agentd.d'
   $include_file       = ''
-  $logfile            = 'C:\zabbix_agentd.log'
   $manage_repo_epel   = false
   $manage_repo_zabbix = false
   $servers            = '127.0.0.1'
@@ -17,10 +16,12 @@ class zabbixagent::params {
   case $::kernel {
     'Linux'   : {
       $config_dir = '/etc/zabbix'
+      $logfile    = '/var/log/zabbix/zabbix_agentd.log'
     }
 
     'Windows' : {
       $config_dir = 'C:/Program Files/Zabbix Agent'
+      $logfile    = 'C:/zabbix_agentd.log'
     }
 
     default   : {
