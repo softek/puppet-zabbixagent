@@ -53,13 +53,13 @@ class zabbixagent::config (
   } else {
     $include_value = "${config_dir}\\${include_dir}\\${include_file}"
     
-    file { "${config_dir}\\${include_dir}":
+    file { "${config_dir}/${include_dir}":
       ensure => directory,
     }
     
-    file { "${config_dir}\\${include_dir}\\${include_file}":
+    file { "${config_dir}/${include_dir}/${include_file}":
       ensure  => file,
-      require => File["${config_dir}\\${include_dir}"],
+      require => File["${config_dir}/${include_dir}"],
     }
     
     ini_setting { 'include setting':
