@@ -18,7 +18,7 @@ class zabbixagent::config (
     }
   }
   
-  file { "${config_dir}/åzabbix_agentd.d":
+  file { "${config_dir}/zabbix_agentd.d":
     ensure => 'directory',
   }
 
