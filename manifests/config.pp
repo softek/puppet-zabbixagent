@@ -47,7 +47,7 @@ class zabbixagent::config (
     }
     
   } else {
-    $include_value = "${config_dir}\\${include_dir}\\${include_file}"
+    $include_value = "${config_dir}/${include_dir}/${include_file}"
     
     file { "${config_dir}/${include_dir}":
       ensure => directory,
