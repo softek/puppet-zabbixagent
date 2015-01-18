@@ -1,7 +1,7 @@
 # Parameters used by this module
 class zabbixagent::params {
   $ensure_setting     = 'present'
-  $hostname           = $::fqdn
+  $hostname           = downcase($::fqdn)
   $include_dir        = 'zabbix_agentd.d'
   $include_file       = ''
   $manage_repo_epel   = false
