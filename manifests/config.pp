@@ -1,53 +1,13 @@
 # Manages configuration of the Zabbix agent and associated repos (if enabled)
 class zabbixagent::config (
+  $config_dir     = $::zabbixagent::config_dir,
   $hostname       = $::zabbixagent::params::hostname,
+  $include_dir    = $::zabbixagent::params::include_dir,
+  $include_file   = $::zabbixagent::params::include_file,
   $servers        = $::zabbixagent::params::servers,
   $servers_active = $::zabbixagent::params::servers,
 ) inherits ::zabbixagent::params {
-  case $::kernel {
-    'Linux'   : {
-      $config_dir  = '/etc/zabbix'
-      
-      file { "${config_dir}/zabbix_agentd.d":
-        ensure => 'directory',
-      }
-    
-      ini_setting { 'include setting':
-        ensure  => present,
-        path    => "${config_dir}/zabbix_agentd.conf",
-        section => '',
-        setting => 'Include',
-        value   => "${config_dir}\\zabbix_agentd.d",
-        notify  => Service['zabbix-agent'],
-      }
-    }
-
-    'Windows' : {
-      $config_dir  = 'C:/Program Files/Zabbix Agent'
-      
-      file { 'C:/ProgramData/Zabbix':
-        ensure => 'directory',
-      }
-    
-      file { 'C:/ProgramData/Zabbix/zabbix_agentd.d':
-        ensure  => 'directory',
-        require => File['C:/ProgramData/Zabbix'],
-      }
-    
-      ini_setting { 'include setting':
-        ensure  => present,
-        path    => "${config_dir}/zabbix_agentd.conf",
-        section => '',
-        setting => 'Include',
-        value   => "C:\\ProgramData\\Zabbix\\zabbix_agentd.d\\*.conf",
-        notify  => Service['zabbix-agent'],
-      }
-    }
-
-    default   : {
-      fail($::zabbixagent::params::fail_message)
-    }
-  }
+  
 
   ini_setting { 'servers setting':
     ensure  => present,
@@ -75,4 +35,41 @@ class zabbixagent::config (
     value   => $hostname,
     notify  => Service['zabbix-agent'],
   }
+  
+  file { "${config_dir}/zabbix_agentd.d":
+    ensure => 'directory',
+  }
+
+  if ($include_file == '') {
+    ini_setting { 'include setting':
+      ensure  => absent,
+      path    => "${config_dir}/zabbix_agentd.conf",
+      section => '',
+      setting => 'Include',
+      notify  => Service['zabbix-agent'],
+    }
+    
+  } else {
+    $include_value = "${config_dir}\\${include_dir}\\${include_file}"
+    
+    file { "${config_dir}\\${include_dir}":
+      ensure => directory,
+    }
+    
+    file { "${config_dir}\\${include_dir}\\${include_file}":
+      ensure  => file,
+      require => File["${config_dir}\\${include_dir}"],
+    }
+    
+    ini_setting { 'include setting':
+      ensure  => present,
+      path    => "${config_dir}/zabbix_agentd.conf",
+      section => '',
+      setting => 'Include',
+      value   => $include_value,
+      notify  => Service['zabbix-agent'],
+    }
+    
+  }
+  
 }

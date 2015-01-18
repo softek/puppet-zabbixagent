@@ -9,6 +9,15 @@
 #   $hostname           The hostname used in the config file.
 #                       Default: $::fqdn
 #
+#   $include_dir        The directory that additional config files will be
+#                       placed in.
+#                       Default: zabbix_agentd.d
+#                       Type: String
+#
+#   $include_file       A file that that contain additional settings
+#                       Default: ''
+#                       Type: String
+#
 #   $manage_repo_epel   Determines if the EPEL repo is managed on the RedHat
 #                       family of OS's.
 #                       Default: false
@@ -36,11 +45,26 @@
 class zabbixagent (
   $ensure_setting     = $::zabbixagent::params::ensure_setting,
   $hostname           = $::zabbixagent::params::hostname,
+  $include_dir        = $::zabbixagent::params::include_dir,
+  $include_file       = $::zabbixagent::params::include_file,
   $manage_repo_epel   = $::zabbixagent::params::manage_repo_epel,
   $manage_repo_zabbix = $::zabbixagent::params::manage_repo_zabbix,
   $servers            = $::zabbixagent::params::servers,
   $servers_active     = $::zabbixagent::params::servers_active,
 ) inherits ::zabbixagent::params {
+  
+  # validate booleans
+  validate_bool($ensure_setting)
+  validate_bool($manage_repo_epel)
+  validate_bool($manage_repo_zabbix)
+  
+  # validate strings
+  validate_string($hostname)
+  validate_string($include_dir)
+  validate_string($include_file)
+  validate_string($servers)
+  validate_string($servers_active)
+  
   class { '::zabbixagent::preinstall':
     manage_repo_epel   => $manage_repo_epel,
     manage_repo_zabbix => $manage_repo_zabbix,
@@ -53,6 +77,8 @@ class zabbixagent (
   
   class { '::zabbixagent::config':
     hostname       => $hostname,
+    include_dir    => $include_dir,
+    include_file   => $include_file,
     servers        => $servers,
     servers_active => $servers_active,
   } ->
