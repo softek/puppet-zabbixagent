@@ -4,6 +4,7 @@ class zabbixagent::params {
   $hostname           = downcase($::fqdn)
   $include_dir        = 'zabbix_agentd.d'
   $include_file       = ''
+  $logfile            = 'C:\zabbix_agentd.log'
   $manage_repo_epel   = false
   $manage_repo_zabbix = false
   $servers            = '127.0.0.1'

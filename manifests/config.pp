@@ -4,6 +4,7 @@ class zabbixagent::config (
   $hostname       = $::zabbixagent::params::hostname,
   $include_dir    = $::zabbixagent::params::include_dir,
   $include_file   = $::zabbixagent::params::include_file,
+  $logfile        = $::zabbixagent::params::logfile,
   $servers        = $::zabbixagent::params::servers,
   $servers_active = $::zabbixagent::params::servers,
 ) inherits ::zabbixagent::params {
@@ -70,6 +71,15 @@ class zabbixagent::config (
       notify  => Service['zabbix-agent'],
     }
     
+  } # end if / else for $include_file
+  
+  ini_setting { 'logfile setting':
+    ensure  => present,
+    path    => "${config_dir}/zabbix_agentd.conf",
+    section => '',
+    setting => 'LogFile',
+    value   => $logfile,
+    notify  => Service['zabbix-agent'],
   }
   
 }

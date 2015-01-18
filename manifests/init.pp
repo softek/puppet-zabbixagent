@@ -47,6 +47,7 @@ class zabbixagent (
   $hostname           = $::zabbixagent::params::hostname,
   $include_dir        = $::zabbixagent::params::include_dir,
   $include_file       = $::zabbixagent::params::include_file,
+  $logfile            = $::zabbixagent::params::logfile,
   $manage_repo_epel   = $::zabbixagent::params::manage_repo_epel,
   $manage_repo_zabbix = $::zabbixagent::params::manage_repo_zabbix,
   $servers            = $::zabbixagent::params::servers,
@@ -62,6 +63,7 @@ class zabbixagent (
   validate_string($hostname)
   validate_string($include_dir)
   validate_string($include_file)
+  validate_string($logfile)
   validate_string($servers)
   validate_string($servers_active)
   
@@ -79,6 +81,7 @@ class zabbixagent (
     hostname       => $hostname,
     include_dir    => $include_dir,
     include_file   => $include_file,
+    logfile        => $logfile,
     servers        => $servers,
     servers_active => $servers_active,
   } ->
