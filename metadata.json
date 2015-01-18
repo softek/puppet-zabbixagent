@@ -1,20 +1,23 @@
 {
-  "name": "softek-zabbixagent",
-  "version": "1.0.1",
-  "source": "git://github.com/softek/puppet-zabbixagent.git",
-  "author": "Scott Smerchek",
-  "license": "MIT",
-  "summary": "Zabbix Agent Puppet Module",
-  "description": "This module manages Zabbix Agent on Windows and Debian/Ubuntu.",
-  "project_page": "http://github.com/softek/puppet-zabbixagent",
+  "name": "genebean-zabbixagent",
+  "version": "2.0.0",
+  "author": "Gene Liverman",
+  "summary": "This module manages the Zabbix Agent on Windows or Linux.",
+  "license": "BSD-3-Clause",
+  "source": "https://github.com:genebean/genebean-zabbixagent.git",
+  "project_page": "https://github.com/genebean/genebean-zabbixagent",
+  "issues_url": "https://github.com/genebean/genebean-zabbixagent/issues",
+  "tags": ["zabbix", "monitoring"],
   "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.0.0"
-    },
-    {
-      "name": "puppetlabs/inifile",
-      "version_requirement": ">= 0.9.0"
-    }
+    { "name": "puppetlabs/inifile", "version_requirement": ">= 0.9.0" },
+    { "name": "puppetlabs/stdlib",  "version_requirement": ">= 3.0.0" }
+  ],
+  "requirements": [
+    { "name": "puppet", "version_requirement": ">= 2.7.0 < 4.0.0" }
+  ],
+  "operatingsystem_support": [
+    { "operatingsystem": "CentOS",  "operatingsystemrelease": [ "5", "6", "7" ] },
+    { "operatingsystem": "RedHat",  "operatingsystemrelease": [ "5", "6", "7" ] },
+    { "operatingsystem": "Windows", "operatingsystemrelease": [ "7" ] }
   ]
 }

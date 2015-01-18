@@ -7,15 +7,19 @@
 #                       Default: 'present'
 #
 #   $hostname           The hostname used in the config file.
-#                       Default: $::fqdn
+#                       Default: downcase($::fqdn)
 #
 #   $include_dir        The directory that additional config files will be
 #                       placed in.
-#                       Default: zabbix_agentd.d
+#                       Default: 'zabbix_agentd.d'
 #                       Type: String
 #
 #   $include_file       A file that that contain additional settings
 #                       Default: ''
+#                       Type: String
+#
+#   $logfile            The full path to where Zabbix should store it's logs.
+#                       Default: 'C:\zabbix_agentd.log'
 #                       Type: String
 #
 #   $manage_repo_epel   Determines if the EPEL repo is managed on the RedHat
@@ -35,6 +39,7 @@
 #   $servers_active     The server or servers used in the Servers setting.
 #                       Default: '127.0.0.1'
 #                       Type: String separated by commas OR Array
+#
 #
 # Actions:
 #

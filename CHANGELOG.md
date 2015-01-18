@@ -1,14 +1,14 @@
-2015-01-17
-Total Rework:
+2015-01-17 Fork - Release 2.0.0
+Total Rework by genebean:
 - Converted to use the install -> config -> service pattern
-- Moved all paramters to `params.pp`
-- Removed dependancy on epel module
+- Moved all parameters to `params.pp`
+- Removed dependency on epel module
 - Added Zabbix repo
 - Added option to disable repo management per repo
 - Changed Windows setup to utilize the official Zabbix package via Chocolatey
 - Added .project file for Geppetto
 - Added Vagrant config to facilitate testing and development
-- Added ability to configure `ServerActive` setting
+- Added several new parameters (see changes to README.md)
 
 2014-07-15 Release 1.0.1
 Changes:
@@ -28,6 +28,6 @@ Bugfixes:
 2013-01-02 Release 0.1.0
 Changes:
 - Use ini_setting module to only change necessary settings rather than use
-the entire config file as a template. This will insulate us from changes in the 
+the entire config file as a template. This will insulate us from changes in the
 Zabbix configuration with new versions.
 - Other fixes
