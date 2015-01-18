@@ -36,10 +36,6 @@ class zabbixagent::config (
     value   => $hostname,
     notify  => Service['zabbix-agent'],
   }
-  
-  file { "${config_dir}/zabbix_agentd.d":
-    ensure => 'directory',
-  }
 
   if ($include_file == '') {
     ini_setting { 'include setting':
