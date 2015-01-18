@@ -54,11 +54,11 @@ class zabbixagent (
 ) inherits ::zabbixagent::params {
   
   # validate booleans
-  validate_bool($ensure_setting)
   validate_bool($manage_repo_epel)
   validate_bool($manage_repo_zabbix)
   
   # validate strings
+  validate_string($ensure_setting)
   validate_string($hostname)
   validate_string($include_dir)
   validate_string($include_file)
