@@ -54,7 +54,7 @@ class zabbixagent::config (
     path    => "${config_dir}/zabbix_agentd.conf",
     section => '',
     setting => 'Include',
-    value   => "${config_dir}/åzabbix_agentd.d",
+    value   => "${config_dir}\\zabbix_agentd.d",
     notify  => Service['zabbix-agent'],
   }
 }
