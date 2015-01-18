@@ -9,6 +9,7 @@
   "issues_url": "https://github.com/genebean/genebean-zabbixagent/issues",
   "tags": ["zabbix", "monitoring"],
   "dependencies": [
+    { "name": "rismoney/chocolatey", "version_requirement": ">= 0.4.1" },
     { "name": "puppetlabs/inifile", "version_requirement": ">= 0.9.0" },
     { "name": "puppetlabs/stdlib",  "version_requirement": ">= 3.0.0" }
   ],
@@ -18,6 +19,6 @@
   "operatingsystem_support": [
     { "operatingsystem": "CentOS",  "operatingsystemrelease": [ "5", "6", "7" ] },
     { "operatingsystem": "RedHat",  "operatingsystemrelease": [ "5", "6", "7" ] },
-    { "operatingsystem": "Windows", "operatingsystemrelease": [ "7" ] }
+    { "operatingsystem": "Windows", "operatingsystemrelease": [ "7", "2012 R2" ] }
   ]
 }
