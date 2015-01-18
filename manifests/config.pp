@@ -25,8 +25,13 @@ class zabbixagent::config (
     'Windows' : {
       $config_dir  = 'C:/Program Files/Zabbix Agent'
       
-      file { 'C:/ProgramData/Zabbix/zabbix_agentd.d':
+      file { 'C:/ProgramData/Zabbix':
         ensure => 'directory',
+      }
+    
+      file { 'C:/ProgramData/Zabbix/zabbix_agentd.d':
+        ensure  => 'directory',
+        require => File['C:/ProgramData/Zabbix'],
       }
     
       ini_setting { 'include setting':
