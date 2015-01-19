@@ -10,13 +10,13 @@ class zabbixagent::preinstall (
         file { '/etc/yum.repos.d/epel.repo':
           ensure  => file,
           content => template('zabbixagent/epel.repo.erb'),
-          notify  => Exec['yum clean cache'],
+          notify  => Exec['yum clean all'],
         }
     
         file { '/etc/yum.repos.d/epel-testing.repo':
           ensure  => file,
           content => template('zabbixagent/epel-testing.repo.erb'),
-          notify  => Exec['yum clean cache'],
+          notify  => Exec['yum clean all'],
         }
       }
     
@@ -25,7 +25,7 @@ class zabbixagent::preinstall (
         file { '/etc/yum.repos.d/zabbix.repo':
           ensure  => file,
           content => template('zabbixagent/zabbix.repo.erb'),
-          notify  => Exec['yum clean cache'],
+          notify  => Exec['yum clean all'],
         }
       }
     } # end RedHat
@@ -57,12 +57,12 @@ class zabbixagent::preinstall (
     
   } # end case $::osfamily
   
-  exec { 'yum clean cache':
+  exec { 'yum clean all':
     path        => '/usr/bin',
     user        => 'root',
     logoutput   => true,
     refreshonly => true,
-    command     => 'yum clean all --verbose',
+    command     => 'yum clean all',
   }
   
   exec { 'apt-get update':
