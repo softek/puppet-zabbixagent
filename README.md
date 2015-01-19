@@ -113,11 +113,11 @@ one line of the original code was left. Since no 'substantial portions' of the c
 was reused and no written licence was contained in the repository I have chosen not
 to reuse the MIT license that was referenced in the original metadata.json file.
 
-This module has been released independant of the origial after reviewing the original
-author's GitHub issue tracker. Specificaly, it appeared that they had not been
-responding to issues or pull requests for at least six months and some have sat for
-nearly two years. This response timeframe was and my needs didn't line up so here we
-are.
+This module has been released independant of the origial after reviewing the
+original author's GitHub issue tracker. Specificaly, it appeared that they had
+not been responding to issues or pull requests for at least six months and some
+had sat for nearly two years. This response timeframe and my needs didn't line
+up so here we are.
 
 [gh-tag-img]: https://img.shields.io/github/tag/genebean/genebean-zabbixagent.svg
 [gh-link]: https://github.com/genebean/genebean-zabbixagent
