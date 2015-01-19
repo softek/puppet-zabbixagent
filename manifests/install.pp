@@ -6,6 +6,7 @@ class zabbixagent::install (
     Linux: {
       package { 'zabbix-agent':
         ensure => $ensure_setting,
+        notify => Service['zabbix-agent'],
       }
     } # end Linux
     
@@ -13,6 +14,7 @@ class zabbixagent::install (
       package { 'zabbix-agent':
         ensure   => $ensure_setting,
         provider => 'chocolatey',
+        notify => Service['zabbix-agent'],
       }
     } # end Windows
     
