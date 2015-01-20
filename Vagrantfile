@@ -5,11 +5,9 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "genebean/centos6-puppet-64bit"
+  config.vm.box = "genebean/centos6-rvm193-64bit"
 
-  config.vm.synced_folder "./", "/etc/puppet/modules/zabbixagent"
-  config.vm.provision "shell", inline: "yum -y install vim-enhanced tree git ruby-devel"
-  config.vm.provision "shell", inline: "gem install --no-ri --no-rdoc puppet-moddeps"
-  config.vm.provision "shell", inline: "puppet-moddeps zabbixagent"
+  config.vm.provision "shell", inline: "su - vagrant -c 'cd /vagrant; bundle install --jobs=3 --retry=3 --path=${BUNDLE_PATH:-vendor/bundle}'"
 
 end
+

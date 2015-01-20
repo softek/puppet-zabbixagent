@@ -1,2 +1,8 @@
+/.bundle/
+/.idea/
 /.vagrant/
-pkg
+/coverage/
+/pkg/
+/spec/fixtures/
+/vendor/
+Gemfile.lock

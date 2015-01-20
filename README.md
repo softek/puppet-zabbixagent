@@ -1,4 +1,6 @@
-[![Puppet Forge][pf-img]][pf-link] [![GitHub tag][gh-tag-img]][gh-link]
+[![Build Status][travis-img-master]][travis-ci]
+[![Puppet Forge][pf-img]][pf-link]
+[![GitHub tag][gh-tag-img]][gh-link]
 
 # Zabbix Agent Puppet Module
 
@@ -119,8 +121,12 @@ not been responding to issues or pull requests for at least six months and some
 had sat for nearly two years. This response timeframe and my needs didn't line
 up so here we are.
 
+[coveralls-master]: https://coveralls.io/r/genebean/genebean-zabbixagent?branch=master
+[coveralls-img-master]: https://img.shields.io/coveralls/genebean/genebean-zabbixagent/master.svg
 [gh-tag-img]: https://img.shields.io/github/tag/genebean/genebean-zabbixagent.svg
 [gh-link]: https://github.com/genebean/genebean-zabbixagent
 [pf-img]: https://img.shields.io/puppetforge/v/genebean/zabbixagent.svg
 [pf-link]: https://forge.puppetlabs.com/genebean/zabbixagent
 [pf-softek-zabbixagent]: https://forge.puppetlabs.com/softek/zabbixagent
+[travis-ci]: https://travis-ci.org/genebean/genebean-zabbixagent
+[travis-img-master]: https://img.shields.io/travis/genebean/genebean-zabbixagent/master.svg
