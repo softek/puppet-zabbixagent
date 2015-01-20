@@ -11,7 +11,7 @@ group :development, :unit_tests do
   gem 'puppet',                  puppetversion
   gem 'puppet-lint',             ['>= 1.0.0', '< 1.1.0']
   gem 'puppetlabs_spec_helper',  '~> 0.8'
-  gem 'rspec-puppet',            :git => 'git@github.com:rodjek/rspec-puppet.git'
+  gem 'rspec-puppet',            :git => 'https://github.com/rodjek/rspec-puppet.git'
 end
 
 
