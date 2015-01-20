@@ -1,0 +1,8 @@
+fixtures:
+  forge_modules:
+    chocolatey:  "rismoney/chocolatey"
+    inifile:     "puppetlabs/inifile"
+    stdlib:      "puppetlabs/stdlib"
+  symlinks:
+    zabbixagent: "#{source_dir}"
+
