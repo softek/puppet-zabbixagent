@@ -10,3 +10,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: "su - vagrant -c 'cd /vagrant; bundle install --jobs=3 --retry=3 --path=${BUNDLE_PATH:-vendor/bundle}'"
 
 end
+
